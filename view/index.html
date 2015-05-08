@@ -2,52 +2,67 @@
 {% extends 'layouts/main.html' %}
 
 {% block body %}
-    <div class="container-wide" id="app">
-    	<div class="row">
-	        <div class="col-md-2 sidebar">
-		        <ul class="nav nav-sidebar">
-		            <li rv-each-widget="widgets"><a href="#" rv-on-click="changeWidget">[[widget.name]] - [[widget.status]]</a></li>
-		          </ul>
-		    </div>
-	        <div class="col-md-10 main">
-		        <div class="well" rv-each-story="selectedWidget.stories">
-				    <button type="button" class="btn btn-default" rv-on-click="markRead"><span class="glyphicon glyphicon-remove"></span></button>
-				    <a target="_blank" rv-on-click="markRead" rv-href="story.url">[[story.title]]</a>
-			    </div>
-		    </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block script %}
+    <script src="/public/js/flixi/stats.js"></script>
+    <script src="/public/js/flixi/detector.js"></script>
+
+    <script src="/public/js/flixi/three.js"></script>
+    <script src="/public/js/flixi/pixi.js"></script>
+    <script src="/public/js/flixi/keypress.js"></script>
+    <script src="/public/js/flixi/flixi.js"></script>
+
+    <script src="/public/js/libs/collision.js"></script>
+    <script src="/public/js/obj/materials.js"></script>
+    <script src="/public/js/obj/player.js"></script>
+    <script src="/public/js/obj/wall.js"></script>
+    <script src="/public/js/obj/world.js"></script>
+
+
+
     <script type="text/javascript">
-        $.getJSON("/api/get/test/hello?a=5").then(function(resp){
-            console.log(resp)
+        if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+        var world = new MainWorld();
+
+        //renderer
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+        renderer.setClearColor( 0x323D47 );
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.domElement.style.display = 'inherit'
+        document.body.appendChild(renderer.domElement);
+
+        //stats
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+        container = document.createElement( 'div' );
+                        document.body.appendChild( container );
+        container.appendChild( stats.domElement );
+
+        //MAINLOOP
+        FLIXI.RunEveryFrame(function() {
+            world.runFrame();
+            //var timer = 0.0001 * Date.now();
+            //world.camera.position.x--;
+            renderer.render(world.scene, world.camera)
+            stats.update();
         })
-        $.post( "/api/post/test/hello?a=5", {one: 5}).then(function(resp){
-            console.log(resp)
-        })
-        
-        //setup rivits template
-    	var t = {}
-    	t.widgets = []
-        t.widgets.push({name: "a", status: "1", stories: [{title: "one", url: "http://twitter.com"}]})
-        t.widgets.push({name: "two", status: "2", stories: [{title: "other", url: "http://twitter.com"}, {title: "test2", url: "http://google.com"}]})
-        t.selectedWidget = t.widgets[0]
-        t.changeWidget = function(event, binding){
-            t.selectedWidget = binding.widget
-            console.log(t.selectedWidget.name)
-        }
-        t.markRead = function(event, binding){
-            alert(binding.story.title)
-        }
-        //bind rivits template
-		rivets.bind($('#app'), t)
     </script>
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
     //SOCKETIO
     var socket = io();
+    var updateServer = function(){
+        //console.log(world.player.getUpdateData())
+        socket.emit("updatePlayer", world.player.getUpdateData())
+         setTimeout(updateServer, 200)  
+    }
+    updateServer();
     </script>
 {% endblock %}

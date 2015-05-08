@@ -7,6 +7,11 @@ module.exports = function (server){
 			player: new Player(new Vector(0,0,0), 100, 5)
 		}
 
+		socket.on('updatePlayer', function(data){
+			//TODO validate data
+			socket.data.player.updateFromClient(data)
+			console.log(socket.data.player.getChunk())
+		})
 
 	    socket.on('disconnect', function() {
 	    });

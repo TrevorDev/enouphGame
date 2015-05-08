@@ -3,6 +3,10 @@ var Vector = require('../libs/vector')
 var roomFactory = require('../libs/roomFactory')
 module.exports = function (pos, health, damage){
 	var room = null
+	this.updateFromClient = function(data){
+		pos = new Vector(data.pos.x, data.pos.y, data.pos.z)
+
+	}
 	this.getChunk = function(){
 		return pos.chunk(world.chunkSize)
 	}
