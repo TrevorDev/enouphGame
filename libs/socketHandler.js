@@ -40,7 +40,7 @@ module.exports = function (server){
 				_.values(room.getUsers()).forEach(function(player){
 					player.getSocket().emit("updateWorld", {players: nearbyUsers})
 				})
-				console.log(nearbyUsers.length)
+				//console.log(nearbyUsers.length)
 			}
 		}
 		setTimeout(updateClients, worldSettings.updateTimeout)

@@ -72,7 +72,7 @@
     socket.on("connected", function(data){
         playerID = data.id
         updateServerStart(data.updateTimeout)
-        console.log(playerID)
+        //console.log(playerID)
     })
 
     socket.on("updateWorld", function(data){

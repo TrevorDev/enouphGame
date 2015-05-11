@@ -35,6 +35,7 @@ var MainWorld = function(){
 		sphere = new THREE.Mesh( new THREE.SphereGeometry( 70, 32, 16 ), materials[ i ] );
 		sphere.position.x = ( i % 4 ) * 200 - 400;
 		sphere.position.z = -200;
+		sphere.position.y = 150;
 		this.scene.add( sphere );
 
 	}
