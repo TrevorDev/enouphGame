@@ -1,6 +1,9 @@
-var Wall = function(world) {
+var Wall = function(world, meterial) {
+    if(!meterial){
+        meterial = MATERIALS.DEFAULT
+    }
     this.world = world;
-    this.hitbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), MATERIALS.DEFAULT)
+    this.hitbox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), meterial)
     this.hitbox.scale.x = 500
     this.hitbox.scale.y = 20
     this.hitbox.scale.z = 500

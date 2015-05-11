@@ -143,7 +143,8 @@ var MainPlayer = function(world) {
     this.collisionAdjust = function(from, to){
 
          var wallFaces = []
-        $.each(this.world.walls, function(idx, elem) {
+         var walls = this.world.getWalls()
+        $.each(walls, function(idx, elem) {
             wallFaces = wallFaces.concat(elem.getFaces());
         });
         
