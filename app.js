@@ -10,7 +10,7 @@ var parse = require('co-body')
 
 var SocketHandler = require('./libs/socketHandler')
 
-var config = {appPort: process.env.PORT || 3000}
+var config = {appPort: process.env.PORT || 3001}
 var render = views('view', { map: { html: 'swig' } });
 var app = koa()
 
