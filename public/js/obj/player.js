@@ -27,6 +27,22 @@ var Player = function(world) {
         ret.pos = {x: this.body.position.x, y: this.body.position.y, z: this.body.position.z}
         return ret
     }
+    this.destroy = function(){
+        this.world.scene.remove(this.body)
+    }
+}
+
+var OtherPlayer = function(world, pos){
+    Player.call(this, world)
+    this.body.position.set(pos.x, pos.y, pos.z)
+    this.nextPos = this.body.position.clone()
+    this.setNextPos = function(pos){
+        this.nextPos.set(pos.x, pos.y, pos.z)
+    }
+    this.move = function(){
+        //TODO replace with cubic spline if we add speed
+        this.body.position.add(this.nextPos.clone().sub(this.body.position).multiplyScalar(0.04))
+    }
 }
 
 var MainPlayer = function(world) {
@@ -53,7 +69,7 @@ var MainPlayer = function(world) {
     }
 
     this.die = function(){
-        this.body.position.set(0,0,0)
+        this.body.position.set(0,200,0)
         this.spd.set(0,0,0)
     }
 

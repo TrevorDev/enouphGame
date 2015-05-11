@@ -24,6 +24,7 @@
     "koa-json-response": "0.0.2",
     "koa-router": "^4.3.2",
     "koa-static": "^1.4.9",
+    "lodash": "^3.8.0",
     "socket.io": "^1.3.5",
     "swig": "^1.4.2"
   }

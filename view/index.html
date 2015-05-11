@@ -56,13 +56,37 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
+    var playerID = null
     //SOCKETIO
     var socket = io();
-    var updateServer = function(){
-        //console.log(world.player.getUpdateData())
-        socket.emit("updatePlayer", world.player.getUpdateData())
-         setTimeout(updateServer, 200)  
+    var updateServerStart = function(updateTimeout){
+        var updateServer = function(){
+            //console.log(world.player.getUpdateData())
+            socket.emit("updatePlayer", world.player.getUpdateData())
+             setTimeout(updateServer, updateTimeout)  
+        }
+        updateServer();
     }
-    updateServer();
+    
+
+    socket.on("connected", function(data){
+        playerID = data.id
+        updateServerStart(data.updateTimeout)
+        console.log(playerID)
+    })
+
+    socket.on("updateWorld", function(data){
+        var curPlayer
+        var otherPlayers = data.players.filter(function(player){
+            if(player.id == playerID){
+                curPlayer = player
+                return false
+            }else{
+                return true
+            }
+        })
+        world.updatePlayers(otherPlayers)
+        //console.log(otherPlayers)
+    })
     </script>
 {% endblock %}

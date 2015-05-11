@@ -1,11 +1,13 @@
 var world = require("../models/worldSettings")
 var Vector = require('../libs/vector')
 var roomFactory = require('../libs/roomFactory')
-module.exports = function (pos, health, damage){
+
+module.exports = function (socket, pos, health, damage){
 	var room = null
+	var id = socket.id //security issue? maybe use guid instead
 	this.updateFromClient = function(data){
 		pos = new Vector(data.pos.x, data.pos.y, data.pos.z)
-
+		this.setRoom();
 	}
 	this.getChunk = function(){
 		return pos.chunk(world.chunkSize)
@@ -27,10 +29,22 @@ module.exports = function (pos, health, damage){
 		}
 		
 	}
+	this.getID = function(){
+		return id
+	}
 	this.leaveRoom = function(){
 		if(room){
 			room.removeUser(this)
 		}
+	}
+	this.getSocket = function(){
+		return socket
+	}
+	this.getUpdateData = function(){
+		var ret = {}
+		ret.id = id
+        ret.pos = {x: pos.x, y: pos.y, z: pos.z}
+        return ret
 	}
 	this.destroy = function(){
 		this.leaveRoom()
