@@ -58,7 +58,7 @@ var MainPlayer = function(world) {
     });
 
     this.getCameraPos = function(){
-        var height = 100
+        var height = 50
         var distance = 300
         var ret = new THREE.Vector3()
         ret.copy(this.body.position)
