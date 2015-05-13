@@ -12,8 +12,8 @@ var Vector = function (x, y, z){
 
 	this.getGrid = function(size){
 		var ret = []
-		for(var i = this.x-size;i<=this.x+size;i++){
-			for(var j = this.z-size;j<=this.z+size;j++){
+		for(var i = this.z-size;i<=this.z+size;i++){
+			for(var j = this.x-size;j<=this.x+size;j++){
 				ret.push(new Vector(j, this.y, i))
 			}
 		}

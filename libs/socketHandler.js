@@ -26,6 +26,7 @@ module.exports = function (server){
 		var rooms = roomFactory.getActiveRooms()
 		for(roomId in rooms){
 			var room = rooms[roomId]
+			
 			if(room.hasUsers()){
 				var nearbyUsers = roomFactory.getNearbyRooms(room)
 				.map(function(room){

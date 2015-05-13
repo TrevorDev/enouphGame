@@ -80,24 +80,21 @@ var MainWorld = function(){
 
 	this.updatePlayers = function(players){
 		var world = this
-		players.forEach(function(p){
+		var newPlayers = players.reduce(function(ret, p){
 			if(world.players[p.id]){
-				world.players[p.id].setNextPos(p.pos)
+				ret[p.id] = world.players[p.id]
+				ret[p.id].setNextPos(p.pos)
 			}else{
-				world.players[p.id] = new OtherPlayer(world, p.pos)
+				ret[p.id] = new OtherPlayer(world, p.pos)
 			}
-		})
-		var playerObj = players.reduce(function(prev, p){
-			prev[p.id] = p
-			return prev
+			delete world.players[p.id]
+			return ret
 		}, {})
 		for(var key in world.players){
-			if(!playerObj[key]){
 				console.log(world.players[key])
 				world.players[key].destroy()
-				delete world.players[key]
-			}
 		}
+		world.players = newPlayers
 	}
 
 	this.runFrame = function(){
