@@ -28,16 +28,10 @@ module.exports = function (server){
 			var room = rooms[roomId]
 			
 			if(room.hasUsers()){
-				var nearbyUsers = roomFactory.getNearbyRooms(room)
-				.map(function(room){
-					return _.values(room.getUsers())
-				})
-				.reduce(function(prev, current){
-					return prev.concat(current)
-				})
-				.map(function(user){
-					return user.getUpdateData()
-				})
+				var nearbyUsers = roomFactory.getNearbyUsers(room)
+									.map(function(user){
+										return user.getUpdateData()
+									})
 				_.values(room.getUsers()).forEach(function(player){
 					player.getSocket().emit("updateWorld", {players: nearbyUsers})
 				})

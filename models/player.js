@@ -2,9 +2,11 @@ var world = require("../models/worldSettings")
 var Vector = require('../libs/vector')
 var roomFactory = require('../libs/roomFactory')
 
+var idCounter = 0
+
 module.exports = function (socket, pos, health, damage){
 	var room = null
-	var id = socket.id //security issue? maybe use guid instead
+	var id = idCounter++//socket.id //security issue? maybe use guid instead
 	this.updateFromClient = function(data){
 		pos = new Vector(data.pos.x, data.pos.y, data.pos.z)
 		this.setRoom();

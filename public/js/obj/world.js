@@ -138,11 +138,11 @@ var WorldChunk = function(world, vec){
 	this.walls.push(ground)
 	
 	var chunkRand = new Math.seedrandom(vec.x+''+vec.z);
-	if(chunkRand() > 0.9){
+	if(chunkRand() > 0.1 && (vec.x != 0 && vec.z !=0)){
 		var wall = new Wall(world, MATERIALS.SHINY)
 		wall.hitbox.position.x=vec.x*world.chunkSize;
 		wall.hitbox.position.z=vec.z*world.chunkSize;
-		wall.hitbox.scale.y = chunkRand()*10000+300;
+		wall.hitbox.scale.y = chunkRand()*6000+300;
 		wall.hitbox.scale.x = world.chunkSize/8
 		wall.hitbox.scale.z = world.chunkSize/8
 		this.walls.push(wall)
