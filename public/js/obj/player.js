@@ -45,6 +45,28 @@ var OtherPlayer = function(world, pos){
     }
 }
 
+var Enemy = function(world, pos, maxHealth){
+    var health = maxHealth
+    Player.call(this, world)
+
+    this.world.scene.remove(this.body)
+    this.body = new THREE.Mesh(new THREE.SphereGeometry( 100, 32, 32 ), MATERIALS.ENEMY)
+    this.world.scene.add(this.body)
+
+    this.body.position.set(pos.x, pos.y, pos.z)
+    this.nextPos = this.body.position.clone()
+    this.setNextPos = function(pos){
+        this.nextPos.set(pos.x, pos.y, pos.z)
+    }
+    this.setHealth = function(h){
+        health = h
+    }
+    this.move = function(){
+        //TODO replace with cubic spline if we add speed
+        this.body.position.add(this.nextPos.clone().sub(this.body.position).multiplyScalar(0.04))
+    }
+}
+
 var MainPlayer = function(world) {
     Player.call(this, world)
 

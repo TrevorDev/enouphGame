@@ -1,15 +1,21 @@
 var rf = require('../libs/roomFactory')
+var Vector = require('../libs/vector')
+var Enemy = require('../models/enemy')
+var _ = require('lodash');
+var world = require("../models/worldSettings")
 module.exports = function (id, pos){
 	var users = {}
 	var enemys = {}
 	var walls = {}
+
+	var enemy = new Enemy(new Vector(pos.x* world.chunkSize, 0, pos.z*world.chunkSize), 100, 1)
+	enemys[enemy.getID()] = enemy
+	
 	this.hasUsers = function(){
-		var ret = false
-		for(var id in users){
-			ret = true
-			break;
-		}
-		return ret
+		return !_.isEmpty(users);
+	}
+	this.hasEnemys = function(){
+		return !_.isEmpty(enemys);
 	}
 	this.getUsers = function(){
 		return users

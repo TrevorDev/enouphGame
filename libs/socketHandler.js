@@ -21,19 +21,39 @@ module.exports = function (server){
 	    	socket.data.player.destroy()
 	    });
 	});
-
+var counter =0
 	var updateClients = function(){
 		var rooms = roomFactory.getActiveRooms()
 		for(roomId in rooms){
 			var room = rooms[roomId]
 			
+
+			// if(room.hasEnemys()){
+			// 	var nearbyUsers = roomFactory.getNearbyUsers(room)
+			// 						.map(function(user){
+			// 							return user.getUpdateData()
+			// 						})
+			// }
 			if(room.hasUsers()){
 				var nearbyUsers = roomFactory.getNearbyUsers(room)
-									.map(function(user){
+				var nearbyEnemys = roomFactory.getNearbyEnemys(room)
+
+
+				// nearbyEnemys.forEach(function(e){
+				// 	nearbyUsers.forEach(function(u){
+					
+				// 	})
+				// })
+				nearbyUsers = nearbyUsers.map(function(user){
 										return user.getUpdateData()
 									})
+				nearbyEnemys = nearbyEnemys.map(function(enemy){
+										return enemy.getUpdateData()
+									})
+
 				_.values(room.getUsers()).forEach(function(player){
-					player.getSocket().emit("updateWorld", {players: nearbyUsers})
+					//console.log("sent"+counter++)
+					player.getSocket().emit("updateWorld", {players: nearbyUsers, enemys: nearbyEnemys})
 				})
 				//console.log(nearbyUsers.length)
 			}

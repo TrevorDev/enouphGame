@@ -6,6 +6,7 @@ var World = function(width, height){
 
 var MainWorld = function(){
 	World.call(this)
+	this.enemys = {}
 	this.players = {}
 	this.player = new MainPlayer(this)
 	this.player.body.position.y += 100
@@ -95,6 +96,26 @@ var MainWorld = function(){
 				world.players[key].destroy()
 		}
 		world.players = newPlayers
+	}
+
+	this.updateEnemys = function(enemys){
+		var world = this
+		var newEnemys = enemys.reduce(function(ret, p){
+			if(world.enemys[p.id]){
+				ret[p.id] = world.enemys[p.id]
+				ret[p.id].setNextPos(p.pos)
+			}else{
+				ret[p.id] = new Enemy(world, p.pos, p.maxHealth)
+			}
+			ret[p.id].setHealth(p.health)
+			delete world.enemys[p.id]
+			return ret
+		}, {})
+		for(var key in world.enemys){
+				console.log(world.enemys[key])
+				world.enemys[key].destroy()
+		}
+		world.enemys = newEnemys
 	}
 
 	this.runFrame = function(){
