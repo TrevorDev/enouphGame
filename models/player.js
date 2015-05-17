@@ -11,11 +11,20 @@ module.exports = function (socket, pos, health, damage){
 		pos = new Vector(data.pos.x, data.pos.y, data.pos.z)
 		this.setRoom();
 	}
+	this.getPos = function(){
+		return pos
+	}
+	this.getDamage = function(){
+		return damage
+	}
+	this.takeDamage = function(d){
+		health -= d
+	}
 	this.getChunk = function(){
 		return pos.chunk(world.chunkSize)
 	}
 	this.getRoom = function(){
-		return roomFactory.getRoom(this.getChunk())
+		return roomFactory.getRoom(this.getChunk(), true)
 	}
 	this.getNearbyRooms = function(){
 		return this.getChunk().getGrid(1).map(function(v){

@@ -1,4 +1,4 @@
 module.exports = {
-	chunkSize: 1000,
+	chunkSize: 4000,
 	updateTimeout: 1000/30
 }

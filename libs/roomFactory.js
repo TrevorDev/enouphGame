@@ -16,11 +16,14 @@ var RoomFactory = function (){
 	this.vectorToRoomID = function(vector){
 		return "room-"+vector.toString()
 	}
-	this.getRoom = function(vector){
+	this.getRoom = function(vector, createIfNull){
 		var roomID = this.vectorToRoomID(vector)
 		if(!rooms[roomID]){
-			//SHould this be creating rooms? can cause recursive memory aloc when iterating over nearby rooms
-			rooms[roomID] = new Room(roomID, vector)
+			if(createIfNull){
+				rooms[roomID] = new Room(roomID, vector)
+			}else{
+				return null
+			}
 		}
 		return rooms[roomID]
 	}
@@ -28,6 +31,8 @@ var RoomFactory = function (){
 		var rf = this
 		return	room.getPos().getGrid(1).map(function(v){
 			return rf.getRoom(v)
+		}).filter(function(r){
+			return r != null
 		})
 	}
 	this.getNearbyUsers = function(room){

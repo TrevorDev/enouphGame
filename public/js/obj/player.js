@@ -60,6 +60,9 @@ var Enemy = function(world, pos, maxHealth){
     }
     this.setHealth = function(h){
         health = h
+        this.body.scale.x = health/maxHealth
+        this.body.scale.y = health/maxHealth
+        this.body.scale.z = health/maxHealth
     }
     this.move = function(){
         //TODO replace with cubic spline if we add speed

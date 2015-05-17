@@ -8,7 +8,7 @@ module.exports = function (id, pos){
 	var enemys = {}
 	var walls = {}
 
-	var enemy = new Enemy(new Vector(pos.x* world.chunkSize, 0, pos.z*world.chunkSize), 100, 1)
+	var enemy = new Enemy(new Vector(pos.x* world.chunkSize + world.chunkSize/2 , 0, pos.z*world.chunkSize + world.chunkSize/2 ))
 	enemys[enemy.getID()] = enemy
 	
 	this.hasUsers = function(){

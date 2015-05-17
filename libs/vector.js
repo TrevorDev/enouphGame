@@ -10,6 +10,18 @@ var Vector = function (x, y, z){
 		return this.x+"-"+this.y+"-"+this.z
 	}
 
+	this.sub = function(pos){
+		return new Vector(this.x-pos.x,this.y-pos.y,this.z-pos.z)
+	}
+
+	this.add = function(pos){
+		return new Vector(this.x+pos.x,this.y+pos.y,this.z+pos.z)
+	}
+
+	this.mag = function(){
+		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)
+	}
+
 	this.getGrid = function(size){
 		var ret = []
 		for(var i = this.z-size;i<=this.z+size;i++){
